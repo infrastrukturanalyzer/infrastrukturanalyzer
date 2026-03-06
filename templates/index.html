@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>AI Infrastruktur Analyzer</title>
+
+<style>
+
+body{
+font-family:Arial;
+background-image:url("https://images.unsplash.com/photo-1503387762-592deb58ef4e");
+background-size:cover;
+padding:40px;
+}
+
+.container{
+background:rgba(255,255,255,0.9);
+padding:35px;
+border-radius:10px;
+width:700px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+}
+
+.upload-box{
+border:2px dashed #555;
+border-radius:10px;
+padding:40px;
+text-align:center;
+cursor:pointer;
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.preview img{
+max-width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI Infrastruktur Analyzer</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+
+<h3>Upload Foto Infrastruktur</h3>
+
+<div class="upload-box" onclick="document.getElementById('fileInput').click()">
+
+Klik untuk Upload Foto
+
+<br><br>
+
+<input type="file" id="fileInput" name="file" accept="image/*" required onchange="previewImage(event)" style="display:none">
+
+</div>
+
+<div class="preview">
+
+<img id="preview">
+
+</div>
+
+<br>
+
+<div style="text-align:center">
+
+<button type="submit">Analisis Infrastruktur</button>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+var reader = new FileReader();
+
+reader.onload = function(){
+
+document.getElementById('preview').src = reader.result;
+
+}
+
+reader.readAsDataURL(event.target.files[0]);
+
+}
+
+</script>
+
+</body>
+</html>

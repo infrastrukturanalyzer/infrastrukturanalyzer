@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Hasil Analisis</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f8;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+width:900px;
+margin:auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI Infrastruktur Analyzer</h1>
+
+Tanggal : {{tanggal}} <br>
+Jam : {{jam}}
+
+<h2>Foto Asli</h2>
+
+<img src="/uploads/{{filename}}" width="500">
+
+<hr>
+
+<h2>Statistik Kerusakan</h2>
+
+Persentase Kerusakan : {{percent}} %<br>
+Panjang Retakan : {{length}} pixel<br>
+Lebar Retakan : {{width}} pixel<br>
+Jenis Kerusakan : {{jenis}}<br>
+Status Lubang : {{pothole}}<br>
+
+<hr>
+
+<h2>Grafik Analisis</h2>
+
+<canvas id="chart"></canvas>
+
+<script>
+
+new Chart(document.getElementById("chart"), {
+type: 'bar',
+data: {
+labels: ['Kerusakan','Panjang','Lebar'],
+datasets: [{
+data: [{{percent}},{{length}},{{width}}],
+backgroundColor:['red','orange','blue']
+}]
+}
+});
+
+</script>
+
+<br><br>
+
+<a href="/">Analisis Lagi</a>
+
+</div>
+
+</body>
+</html>
