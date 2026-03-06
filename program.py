@@ -26,11 +26,11 @@ def upload():
     img = cv2.imread(filepath)
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray,(5,5),0)
+    blur = cv2.GaussianBlur(gray, (5,5), 0)
 
-    edges = cv2.Canny(blur,70,150)
+    edges = cv2.Canny(blur, 70, 150)
 
-    contours,_ = cv2.findContours(edges,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     crack_pixels = 0
     total_length = 0
@@ -64,9 +64,9 @@ def upload():
         avg_width = 0
 
 
-    total_pixels = img.shape[0]*img.shape[1]
+    total_pixels = img.shape[0] * img.shape[1]
 
-    percent = (crack_pixels/total_pixels)*100
+    percent = (crack_pixels / total_pixels) * 100
 
 
     # DETEKSI RETAK BUAYA
@@ -109,5 +109,7 @@ def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 
+# BAGIAN INI SUDAH DIPERBAIKI UNTUK RAILWAY
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
