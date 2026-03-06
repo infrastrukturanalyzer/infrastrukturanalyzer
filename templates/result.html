@@ -1,2 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hasil Analisis</title>
+</head>
+
+<body style="font-family:Arial; text-align:center">
+
+<h2>AI Infrastruktur Analyzer</h2>
+
+<p>Tanggal : {{tanggal}}</p>
+<p>Jam : {{jam}}</p>
+
+<h3>Foto Asli</h3>
+<img src="/uploads/{{filename}}" width="500">
+
+<br><br>
+
 <h3>Foto Hasil Deteksi</h3>
-<img src="/uploads/{{ result_image }}" width="500">
+<img src="/uploads/{{result_image}}" width="500">
+
+<hr>
+
+<h3>Statistik Kerusakan</h3>
+
+<p>Persentase Kerusakan : {{percent}} %</p>
+<p>Panjang Retakan : {{length}} pixel</p>
+<p>Lebar Retakan : {{width}} pixel</p>
+<p>Jenis Kerusakan : {{jenis}}</p>
+<p>Status Lubang : {{pothole}}</p>
+
+</body>
+</html>
