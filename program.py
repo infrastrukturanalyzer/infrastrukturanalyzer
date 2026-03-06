@@ -7,8 +7,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+RESULT_FOLDER = "uploads"
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route("/")
 def home():
@@ -24,13 +25,14 @@ def upload():
     file.save(filepath)
 
     img = cv2.imread(filepath)
+    output = img.copy()
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (5,5), 0)
+    blur = cv2.GaussianBlur(gray,(5,5),0)
 
-    edges = cv2.Canny(blur, 70, 150)
+    edges = cv2.Canny(blur,70,150)
 
-    contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours,_ = cv2.findContours(edges,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
     crack_pixels = 0
     total_length = 0
@@ -53,6 +55,9 @@ def upload():
 
             count += 1
 
+            # gambar kotak kerusakan
+            cv2.rectangle(output,(x,y),(x+w,y+h),(0,0,255),2)
+
         if area > 3000:
 
             pothole_area += area
@@ -64,12 +69,12 @@ def upload():
         avg_width = 0
 
 
-    total_pixels = img.shape[0] * img.shape[1]
+    total_pixels = img.shape[0]*img.shape[1]
 
-    percent = (crack_pixels / total_pixels) * 100
+    percent = (crack_pixels/total_pixels)*100
 
 
-    # DETEKSI RETAK BUAYA
+    # DETEKSI RETAK
     if count > 25 and percent > 10:
         jenis_kerusakan = "Retak Buaya"
     elif percent > 5:
@@ -90,10 +95,16 @@ def upload():
     tanggal = now.strftime("%d-%m-%Y")
     jam = now.strftime("%H:%M:%S")
 
+    # simpan gambar hasil deteksi
+    result_filename = "result_" + file.filename
+    result_path = os.path.join(RESULT_FOLDER, result_filename)
+    cv2.imwrite(result_path, output)
+
 
     return render_template(
         "result.html",
         filename=file.filename,
+        result_image=result_filename,
         percent=round(percent,2),
         length=round(total_length,2),
         width=round(avg_width,2),
@@ -109,7 +120,7 @@ def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 
-# BAGIAN INI SUDAH DIPERBAIKI UNTUK RAILWAY
 if __name__ == "__main__":
+    import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
